@@ -10,14 +10,6 @@ use Illuminate\Support\Facades\Cache;
 
 class PegawaiController extends Controller
 {
-    public function display_data(){
-         $data = Cache::remember('pegawai-data', 300, function () {
-         return Pegawai::orderBy('nama','asc')->get();
-        });
-        foreach ($data as $key => $value) {
-            echo $value->nama . "id: " . $value->id . "<br>";
-        }
-    }
 
     public function index()
     {

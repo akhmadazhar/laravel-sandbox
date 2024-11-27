@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\PegawaiController;
 use App\Http\Controllers\Api\PersonController;
+use App\Http\Controllers\Api\UserRegister;
 use App\Http\Controllers\PegawaiController as ControllersPegawaiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -11,5 +12,6 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::resource('/person',PersonController::class);
-Route::get('pegawai',[PegawaiController::class,'index']);
+Route::resource('/person',PersonController::class)->middleware('auth:sanctum');
+Route::get('pegawai',[PegawaiController::class,'index'])->middleware('auth:sanctum');
+Route::post('/user/register',[UserRegister::class,'register']);
