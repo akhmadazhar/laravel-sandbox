@@ -18,16 +18,16 @@ class PersonController extends Controller
     public function index()
     {
         $person = Person::all();
-        return  PersonResource::collection($person)->additional([
-            'status' => true,
-            'message' => 'Data Berhasil ditemukan'
-        ]);
-
-        // return response()->json([
+        // return  PersonResource::collection($person)->additional([
         //     'status' => true,
-        //     'message' => 'Data Berhasil ditemukan!',
-        //     'data' => $person
+        //     'message' => 'Data Berhasil ditemukan'
         // ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data Berhasil ditemukan!',
+            'data' => $person
+        ]);
     }
 
     /**
