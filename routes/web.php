@@ -34,3 +34,9 @@ Route::get('/update-data/{id}', function($id){
     $data->update();
         echo $data->nama . "id: " . $data->id . "<br>";
 });
+
+Route::get('/delete-data/{id}', function($id){
+    $data = Pegawai::findOrFail($id);
+    $data->delete();
+        echo $data->nama . "id: " . $data->id . "<br>" . "Berhasil Dihapus";
+});

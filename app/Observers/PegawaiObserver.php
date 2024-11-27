@@ -31,7 +31,10 @@ class PegawaiObserver
      */
     public function deleted(Pegawai $pegawai): void
     {
-        //
+        if(Cache::get('pegawai-display_'.$pegawai->id)){
+            Cache::forget('pegawai-display.'.$pegawai->id);
+        }
+        Cache::forever('pegawai-display');
     }
 
     /**
