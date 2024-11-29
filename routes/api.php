@@ -15,3 +15,4 @@ Route::get('/user', function (Request $request) {
 Route::resource('/person',PersonController::class)->middleware('auth:sanctum');
 Route::get('pegawai',[PegawaiController::class,'index'])->middleware('auth:sanctum');
 Route::post('/user/register',[UserRegister::class,'register']);
+Route::post('/user/login',[UserRegister::class,'login']);
