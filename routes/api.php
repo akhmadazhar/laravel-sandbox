@@ -18,3 +18,12 @@ Route::post('/user/register',[UserRegister::class,'register']);
 Route::post('/user/login',[UserRegister::class,'login']);
 
 Route::get('/user/refresh-token',[UserRegister::class,'refreshToken'])->middleware(['auth:sanctum','ability:issue-access-token']);
+
+Route::get('/user/logout', function(Request $request){
+    $request->user()->tokens()->delete();
+
+    return response()->json([
+        'status' => 'true',
+        'message' => 'Token Berhasil Dihapus!'
+    ],200);
+})->middleware('auth:sanctum');
