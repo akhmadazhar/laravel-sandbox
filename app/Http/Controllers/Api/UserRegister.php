@@ -29,6 +29,10 @@ class UserRegister extends Controller
         // $data['password'] = bcrypt($request->password);
         $user = User::create($request->all());
         $token = $user->createToken('my-api')->plainTextToken;
+
+            $personalAccesToken = $user->tokens()->latest()->first();
+            $personalAccesToken->expires_at = Carbon::now()->addHours();
+            $personalAccesToken->save();
         return response()->json([
             'status' => true,
             'message' => 'Akun Berasil di Registrasi !',
@@ -47,7 +51,7 @@ class UserRegister extends Controller
             $token = $user->createToken('my-api')->plainTextToken;
 
             $personalAccesToken = $user->tokens()->latest()->first();
-            $personalAccesToken->expires_at = Carbon::now()->addMinutes(1);
+            $personalAccesToken->expires_at = Carbon::now()->addHours();
             $personalAccesToken->save();
 
             return response()->json([
