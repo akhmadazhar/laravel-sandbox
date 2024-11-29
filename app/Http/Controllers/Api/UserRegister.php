@@ -55,7 +55,7 @@ class UserRegister extends Controller
             $acces_token = $user->createToken('acces_token',['access-api'],Carbon::now()->addMinutes($at_expiration))->plainTextToken;
 
             $rt_expiration = 30 * 24 * 60;
-            $refresh_token = $user->createToken('refrse$refresh_token',['issue-access-token'],Carbon::now()->addMinutes($rt_expiration))->plainTextToken;
+            $refresh_token = $user->createToken('refresh_token',['issue-access-token'],Carbon::now()->addMinutes($rt_expiration))->plainTextToken;
 
             return response()->json([
                 'status' => true,
@@ -72,5 +72,21 @@ class UserRegister extends Controller
                 'message' => 'Autentikasi Gagal!'
             ]);
         }
+    }
+
+    public function refreshToken(Request $request)
+    {
+        $at_expiration = 60;
+        $acces_token = $request->user()->createToken('access-api',['access-api'],Carbon::now()->addMinutes($at_expiration))->plainTextToken;
+
+        return response()->json([
+                'status' => true,
+                'message' => 'Token Berhasil Diperbaharui',
+                'data' => [
+                    'name' => $request->user()->name,
+                    'email' => $request->user()->email,
+                    'token' => $acces_token,
+                ]
+            ],200);
     }
 }

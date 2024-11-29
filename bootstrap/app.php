@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (AccessDeniedHttpException $e, Request $request) {
         if ($request->is('api/*')) {
             return response()->json([
-                'statis' =>false,
+                'status' =>false,
                 'message' => 'Akses Tidak Diperbolehkan!.'
             ], 403);
         }
