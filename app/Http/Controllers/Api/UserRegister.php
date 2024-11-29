@@ -28,18 +28,20 @@ class UserRegister extends Controller
         // $data = $request->all();
         // $data['password'] = bcrypt($request->password);
         $user = User::create($request->all());
-        $token = $user->createToken('my-api')->plainTextToken;
 
-            $personalAccesToken = $user->tokens()->latest()->first();
-            $personalAccesToken->expires_at = Carbon::now()->addHours();
-            $personalAccesToken->save();
+        $at_expiration = 60;
+        $acces_token = $user->createToken('access_token',['access-api'],Carbon::now()->addMinutes($at_expiration))->plainTextToken;
+
+        $rt_expiration = 30 * 24 * 60;
+        $refresh_token = $user->createToken('refresh_token',['issue-access-token'],Carbon::now()->addMinutes($rt_expiration))->plainTextToken;
         return response()->json([
             'status' => true,
             'message' => 'Akun Berasil di Registrasi !',
             'data' => [
                 'name' => $user->name,
                 'email' => $user->email,
-                'token' => $token,
+                'token' => $acces_token,
+                'refresh_token' => $refresh_token,
             ]
         ]);
     }
@@ -48,18 +50,20 @@ class UserRegister extends Controller
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password]))
         {
             $user = User::where('email',$request->email)->first();
-            $token = $user->createToken('my-api')->plainTextToken;
 
-            $personalAccesToken = $user->tokens()->latest()->first();
-            $personalAccesToken->expires_at = Carbon::now()->addHours();
-            $personalAccesToken->save();
+            $at_expiration = 60;
+            $acces_token = $user->createToken('acces_token',['access-api'],Carbon::now()->addMinutes($at_expiration))->plainTextToken;
+
+            $rt_expiration = 30 * 24 * 60;
+            $refresh_token = $user->createToken('refrse$refresh_token',['issue-access-token'],Carbon::now()->addMinutes($rt_expiration))->plainTextToken;
 
             return response()->json([
                 'status' => true,
                 'message' => 'Berhasil Login !',
                 'data' => [
                     'email' => $request->email,
-                    'token' => $token
+                    'token' => $acces_token,
+                    'refres_token' => $refresh_token,
                 ]
             ],200);
         } else {
